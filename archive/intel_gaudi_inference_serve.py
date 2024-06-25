@@ -3,14 +3,15 @@ from functools import partial
 from queue import Empty
 from typing import Dict, Any
 
-from starlette.responses import Request, StreamingResponse
+from starlette.requests import Request
+from starlette.responses import StreamingResponse
 import torch
 
 from ray import serve
 
 
 # Define the Ray Serve deployment
-@serve.deployment(ray_actor_options={"num_cpus": 10, "resources": {"HPU": 1}})
+@serve.deployment(ray_actor_options={"num_cpus": 10})
 class LlamaModel:
     def __init__(self, model_id_or_path: str):
         from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
